@@ -1,9 +1,20 @@
 fn main() {
-    let word: &str = "Gaurav-Phuyal";
+    let word: &str = "Gaurav Phuyal";
     let word_length: usize = calc_len(word);
     println!("The length of {word} is {word_length}");
+
     mutable_refrence();
     dangaling_refrence();
+
+    let first_word_len: usize = first_word_no_slice(word);
+    println!("The length of the first word is : {first_word_len}");
+
+    string_slices();
+
+    let first_word: &str = first_word_with_slice(&word);
+    println!("The first word is: {first_word}");
+
+    array_slicing();
 }
 
 fn calc_len(a_word: &str) -> usize {
@@ -58,4 +69,40 @@ fn dangaling_refrence() {
     }
 
     println!("No dangle : {new_s}")
+}
+
+fn first_word_no_slice(word: &str) -> usize {
+    for (i, &item) in word.as_bytes().iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+    return word.len();
+}
+
+fn string_slices() {
+    let word: String = String::from("Gaurav Phuyal");
+    // Here gaurav contains a refrence of the word upto the 6th character which will be "Gaurav"
+    let gaurav: &str = &word[..6];
+
+    println!("{gaurav}");
+}
+
+fn first_word_with_slice(word: &str) -> &str {
+    for (i, &item) in word.as_bytes().iter().enumerate() {
+        if item == b' ' {
+            return &word[..i];
+        }
+    }
+    return &word;
+}
+
+fn array_slicing() {
+    let a: [usize; 5] = [1, 2, 3, 4, 5];
+
+    // like sting the array is also sliced from the second element upto the penultimate element.
+    let sliced_array: &[usize] = &a[1..a.len() - 1];
+    for (i, i_num) in sliced_array.iter().enumerate() {
+        println!("element no. {i_num} {i}");
+    }
 }
